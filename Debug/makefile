@@ -60,8 +60,8 @@ all: main-build
 main-build: Console_Project.elf secondary-outputs
 
 # Tool invocations
-Console_Project.elf Console_Project.map: $(OBJS) $(USER_OBJS) C:\Users\benam\STM32CubeIDE\workspace_1.12.0\Console_Project\STM32F103TBUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Console_Project.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\benam\STM32CubeIDE\workspace_1.12.0\Console_Project\STM32F103TBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Console_Project.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Console_Project.elf Console_Project.map: $(OBJS) $(USER_OBJS) C:\Users\Ben\STM32CubeIDE\workspace_1.12.0\Console_Project\STM32F103TBUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Console_Project.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Ben\STM32CubeIDE\workspace_1.12.0\Console_Project\STM32F103TBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Console_Project.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
