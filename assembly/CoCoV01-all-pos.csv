@@ -1,0 +1,34 @@
+Designator,Value,Footprint,Mid X,Mid Y,Rotation,Layer
+C1,4.7uF,C_0805_2012Metric,158,-62,90,top
+C2,4.7uF,C_0805_2012Metric,192.5,-92,90,top
+C3,10uF,C_1206_3216Metric,151.5,-128.5,0,top
+C4,4.7uF,C_0805_2012Metric,151.2,-111,180,top
+C5,10uF,C_1206_3216Metric,151.5,-118.5,180,top
+C6,100nF,C_0402_1005Metric,154.62,-102.63,-90,top
+C7,100nF,C_0402_1005Metric,144.37,-102.63,90,top
+C8,100nF,C_0402_1005Metric,145.15,-97,0,top
+D1,600mA,D_SOD-323,148.5,-131.9,-90,top
+J1,SWD CONN,PinHeader_2x05_P1.27mm_Vertical_SMD,132.23,-135.22,0,top
+J2,Conn_01x08_Female,PinSocket_1x08_P2.54mm_Vertical,188.5,-91.125,0,top
+J3,Micro_SD_Card,microSD_HC_Molex_104031-0811,150,-66.5,180,top
+J4,USB_B_Micro,USB_Micro-B_Molex-105133-0001,150,-137.625,0,top
+J5,Conn_01x08_Female,PinSocket_1x08_P2.54mm_Vertical,111.5,-91.125,0,top
+R1,24k,R_0805_2012Metric,150.9,-106.6,0,top
+R2,24k,R_0805_2012Metric,206.5,-99.7,180,top
+R3,24k,R_0805_2012Metric,223,-115.9,0,top
+R4,24k,R_0805_2012Metric,76.8,-83.4,0,top
+R5,24k,R_0805_2012Metric,60.6,-100.1,180,top
+R6,24k,R_0805_2012Metric,222.8,-83.7,180,top
+R7,24k,R_0805_2012Metric,239.4,-100.3,180,top
+R8,24k,R_0805_2012Metric,77.1,-116.1,180,top
+R9,24k,R_0805_2012Metric,93.6875,-100,180,top
+S1,B3F-1000,Switch_Tactile_THT_B3F-1xxx,216.2512,-102.2606,180,top
+S2,B3F-1000,Switch_Tactile_THT_B3F-1xxx,226.2512,-112.2606,180,top
+S3,B3F-1000,Switch_Tactile_THT_B3F-1xxx,80.2512,-92.2606,180,top
+S4,B3F-1000,Switch_Tactile_THT_B3F-1xxx,70.2512,-102.2606,180,top
+S5,B3F-1000,Switch_Tactile_THT_B3F-1xxx,226.2512,-92.2606,180,top
+S6,B3F-1000,Switch_Tactile_THT_B3F-1xxx,236.2512,-102.2606,180,top
+S7,B3F-1000,Switch_Tactile_THT_B3F-1xxx,80.2512,-112.2606,180,top
+S8,B3F-1000,Switch_Tactile_THT_B3F-1xxx,90.2512,-102.2606,180,top
+U1,LM1117MPX-3_3_NOPB,SOT-223,154,-123.5,-90,top
+U2,STM32F103TBUx,QFN-36-1EP_6x6mm_P0.5mm_EP4.1x4.1mm,150,-100,180,top
