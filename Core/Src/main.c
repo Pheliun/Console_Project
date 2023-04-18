@@ -38,6 +38,13 @@
 #define CMD_MEMWRCON 0x3C
 #define CMD_DSPINVON 0x21
 #define CMD_DSPINVOFF 0x20
+
+
+
+#define STRTPG 320/2-20
+#define ENDPG 320/2+20
+#define STRTCL 240/2-20
+#define ENDCL 240/2+20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -49,7 +56,15 @@
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
+// offsets
+uint16_t start_pag = STRTPG;
+uint16_t end_pag = ENDPG;
+uint16_t start_col = STRTCL;
+uint16_t end_col = ENDCL;
 
+//colors
+uint16_t red_clr = (uint16_t) ((255<<11) | (0<<5) | 0);
+uint16_t white_clr = (uint16_t) ((255<<11) | (255<<5) | 255);
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -239,7 +254,7 @@ static void MX_GPIO_Init(void)
                            GPIO_DOWN_Pin GPIO_RIGHT_Pin */
   GPIO_InitStruct.Pin = GPIO_A_Pin|GPIO_B_Pin|GPIO_UP_Pin|GPIO_LEFT_Pin
                           |GPIO_DOWN_Pin|GPIO_RIGHT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -263,12 +278,81 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+	 if(GPIO_Pin == GPIO_A_Pin) // check if GPIO_A is pressed
+	  {
+	    // handle GPIO_A press
+		 displayInversionON();
+	  }
+	  else if(GPIO_Pin == GPIO_B_Pin) // check if GPIO_B is pressed
+	  {
+	    // handle GPIO_B press
+		  displayInversionOFF();
+	  }
+	  else if(GPIO_Pin >= GPIO_UP_Pin && GPIO_Pin <= GPIO_LEFT_Pin) // check if GPIO_UP or GPIO_LEFT is pressed
+	  {
+		  ClearScreen(start_col, end_col, start_pag, end_pag);
+	    if(HAL_GPIO_ReadPin(GPIOA, GPIO_UP_Pin) == GPIO_PIN_SET) // check if GPIO_UP is pressed
+	    {
+	      // handle GPIO_UP press
+	    	start_pag--;
+	    	end_pag--;
+	    	columnAddressSet(start_col, end_col);
+	    	pageAddressSet(start_pag, end_pag);
+	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
 
+	    }
+	    else if(HAL_GPIO_ReadPin(GPIOA,GPIO_LEFT_Pin) == GPIO_PIN_SET) // check if GPIO_LEFT is pressed
+	    {
+	      // handle GPIO_LEFT press
+	    	start_col--;
+	    	end_col--;
+	    	columnAddressSet(start_col, end_col);
+	    	pageAddressSet(start_pag, end_pag);
+	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    }
+	  }
+	  else if(GPIO_Pin >= GPIO_DOWN_Pin && GPIO_Pin <= GPIO_RIGHT_Pin) // check if GPIO_DOWN or GPIO_RIGHT is pressed
+	  {
+		  ClearScreen(start_col, end_col, start_pag, end_pag);
+	    if(HAL_GPIO_ReadPin(GPIOA, GPIO_DOWN_Pin) == GPIO_PIN_SET) // check if GPIO_DOWN is pressed
+	    {
+	      // handle GPIO_DOWN press
+	    	start_pag++;
+	    	end_pag++;
+	    	columnAddressSet(start_col, end_col);
+	    	pageAddressSet(start_pag, end_pag);
+	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    }
+	    else if(HAL_GPIO_ReadPin(GPIOA, GPIO_RIGHT_Pin) == GPIO_PIN_SET) // check if GPIO_RIGHT is pressed
+	    {
+	      // handle GPIO_RIGHT press
+	    	start_col++;
+	    	end_col++;
+	    	columnAddressSet(start_col, end_col);
+	    	pageAddressSet(start_pag, end_pag);
+	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    }
+	  }
+}
 /* USER CODE END 4 */
 
 /**

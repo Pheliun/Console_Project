@@ -1,6 +1,7 @@
-../Core/Src/ILI9341_interface.c:13:5:init_ILI9341	8	static
-../Core/Src/ILI9341_interface.c:24:5:columnAddressSet	56	dynamic
-../Core/Src/ILI9341_interface.c:46:5:pageAddressSet	56	dynamic
-../Core/Src/ILI9341_interface.c:68:5:writeMemoryContinue	32	static
-../Core/Src/ILI9341_interface.c:84:5:displayInversionON	8	static
-../Core/Src/ILI9341_interface.c:96:5:displayInversionOFF	8	static
+../Core/Src/ILI9341_interface.c:17:5:init_ILI9341	8	static
+../Core/Src/ILI9341_interface.c:28:5:columnAddressSet	56	dynamic
+../Core/Src/ILI9341_interface.c:50:5:pageAddressSet	56	dynamic
+../Core/Src/ILI9341_interface.c:72:5:writeMemoryContinue	32	static
+../Core/Src/ILI9341_interface.c:88:5:displayInversionON	8	static
+../Core/Src/ILI9341_interface.c:100:5:displayInversionOFF	8	static
+../Core/Src/ILI9341_interface.c:112:5:ClearScreen	32	static

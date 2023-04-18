@@ -1,11 +1,15 @@
 #include "stm32f1xx_hal.h"
-
+#include "ILI9341_interface.h"
 #define CMD_SOFTRST 0x01
 #define CMD_COLADDRSET 0x2A
 #define CMD_PAGADDRSET 0x2B
 #define CMD_MEMWRCON 0x3C
 #define CMD_DSPINVON 0x21
 #define CMD_DSPINVOFF 0x20
+
+uint16_t red_color = (uint16_t) ((255<<11) | (0<<5) | 0);
+uint16_t white_color = (uint16_t) ((255<<11) | (255<<5) | 255);
+
 extern SPI_HandleTypeDef hspi1;
 
 /* ----------ILI9341 INTERFACE ------------*/
@@ -65,7 +69,7 @@ int pageAddressSet(uint8_t start_pag, uint8_t end_pag){
 	return 1; //Successful return
 }
 
-int writeMemoryContinue(uint8_t clr, uint8_t start_pag, uint8_t end_pag, uint8_t start_col, uint8_t end_col){
+int writeMemoryContinue(uint8_t clr,  uint8_t start_col, uint8_t end_col, uint8_t start_pag, uint8_t end_pag){
 
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET); //CS Low
 
@@ -103,6 +107,16 @@ int displayInversionOFF(){
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET); //CS High
 
 	return 1; //Successful return
+}
+
+int ClearScreen(uint8_t start_col, uint8_t end_col, uint8_t start_pag, uint8_t end_pag){
+	columnAddressSet((uint8_t)0,(uint8_t)320);
+	pageAddressSet(0, 240);
+	writeMemoryContinue(red_color,(uint8_t) 0,(uint8_t) 320,(uint8_t) 0,(uint8_t) 240);
+	columnAddressSet(start_col, end_col);
+	pageAddressSet(start_pag, end_pag);
+
+	return 1;
 }
 
 
