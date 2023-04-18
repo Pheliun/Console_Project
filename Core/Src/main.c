@@ -19,7 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "fatfs.h"
-
+#include "ctype.h"
+#include "stdlib.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ILI9341_interface.h"
@@ -63,8 +64,10 @@ uint16_t start_col = STRTCL;
 uint16_t end_col = ENDCL;
 
 //colors
-uint16_t red_clr = (uint16_t) ((255<<11) | (0<<5) | 0);
-uint16_t white_clr = (uint16_t) ((255<<11) | (255<<5) | 255);
+const uint16_t red_clr = (uint16_t) ((255<<11) | (0<<5) | 0);
+const uint16_t white_clr = (uint16_t) ((255<<11) | (255<<5) | 255);
+uint16_t selected_clr = RED_CLR;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,10 +80,10 @@ static void MX_SPI1_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-FATFS fs;
-FIL fil;
-FRESULT fresult;
-char buffer[1024];
+FATFS fs; //FileSystem
+FIL fil; //File
+FRESULT fresult; //result
+char buffer[1024]; // buffer read/write
 
 UINT br, bw;
 
@@ -142,6 +145,25 @@ int main(void)
   MX_SPI1_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
+
+  f_mount(pfs, "", 0);
+
+  f_open(&fil, "color.txt", FA_OPEN_ALWAYS | FA_READ);
+  f_read(&fil, buffer, fil.fsize, &br);
+
+
+  int color_value = atoi(buffer); // convert buffer to integer
+
+  if (color_value != 0) {
+      // buffer contains a valid integer, assign to selected_clr
+      selected_clr = (uint16_t)color_value;
+  }
+  else {
+      // buffer does not contain a valid integer
+      // handle error case
+  }
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -309,7 +331,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	  }
 	  else if(GPIO_Pin >= GPIO_UP_Pin && GPIO_Pin <= GPIO_LEFT_Pin) // check if GPIO_UP or GPIO_LEFT is pressed
 	  {
-		  ClearScreen(start_col, end_col, start_pag, end_pag);
+		  ClearScreen(selected_clr, start_col, end_col, start_pag, end_pag);
 	    if(HAL_GPIO_ReadPin(GPIOA, GPIO_UP_Pin) == GPIO_PIN_SET) // check if GPIO_UP is pressed
 	    {
 	      // handle GPIO_UP press
@@ -317,7 +339,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	    	end_pag--;
 	    	columnAddressSet(start_col, end_col);
 	    	pageAddressSet(start_pag, end_pag);
-	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    	writeMemoryContinue(selected_clr, start_col, end_col, start_pag, end_pag);
 
 	    }
 	    else if(HAL_GPIO_ReadPin(GPIOA,GPIO_LEFT_Pin) == GPIO_PIN_SET) // check if GPIO_LEFT is pressed
@@ -327,12 +349,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	    	end_col--;
 	    	columnAddressSet(start_col, end_col);
 	    	pageAddressSet(start_pag, end_pag);
-	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    	writeMemoryContinue(selected_clr, start_col, end_col, start_pag, end_pag);
 	    }
 	  }
 	  else if(GPIO_Pin >= GPIO_DOWN_Pin && GPIO_Pin <= GPIO_RIGHT_Pin) // check if GPIO_DOWN or GPIO_RIGHT is pressed
 	  {
-		  ClearScreen(start_col, end_col, start_pag, end_pag);
+		  ClearScreen(selected_clr, start_col, end_col, start_pag, end_pag);
 	    if(HAL_GPIO_ReadPin(GPIOA, GPIO_DOWN_Pin) == GPIO_PIN_SET) // check if GPIO_DOWN is pressed
 	    {
 	      // handle GPIO_DOWN press
@@ -340,7 +362,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	    	end_pag++;
 	    	columnAddressSet(start_col, end_col);
 	    	pageAddressSet(start_pag, end_pag);
-	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    	writeMemoryContinue(selected_clr, start_col, end_col, start_pag, end_pag);
 	    }
 	    else if(HAL_GPIO_ReadPin(GPIOA, GPIO_RIGHT_Pin) == GPIO_PIN_SET) // check if GPIO_RIGHT is pressed
 	    {
@@ -349,7 +371,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	    	end_col++;
 	    	columnAddressSet(start_col, end_col);
 	    	pageAddressSet(start_pag, end_pag);
-	    	writeMemoryContinue(red_clr, start_col, end_col, start_pag, end_pag);
+	    	writeMemoryContinue(selected_clr, start_col, end_col, start_pag, end_pag);
 	    }
 	  }
 }

@@ -1,7 +1,7 @@
-ILI9341_interface.c:17:5:init_ILI9341	1
-ILI9341_interface.c:28:5:columnAddressSet	1
-ILI9341_interface.c:50:5:pageAddressSet	1
-ILI9341_interface.c:72:5:writeMemoryContinue	2
-ILI9341_interface.c:88:5:displayInversionON	1
-ILI9341_interface.c:100:5:displayInversionOFF	1
-ILI9341_interface.c:112:5:ClearScreen	1
+ILI9341_interface.c:15:5:init_ILI9341	1
+ILI9341_interface.c:26:5:columnAddressSet	1
+ILI9341_interface.c:48:5:pageAddressSet	1
+ILI9341_interface.c:70:5:writeMemoryContinue	2
+ILI9341_interface.c:86:5:displayInversionON	1
+ILI9341_interface.c:98:5:displayInversionOFF	1
+ILI9341_interface.c:110:5:ClearScreen	1

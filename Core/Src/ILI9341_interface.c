@@ -7,8 +7,6 @@
 #define CMD_DSPINVON 0x21
 #define CMD_DSPINVOFF 0x20
 
-uint16_t red_color = (uint16_t) ((255<<11) | (0<<5) | 0);
-uint16_t white_color = (uint16_t) ((255<<11) | (255<<5) | 255);
 
 extern SPI_HandleTypeDef hspi1;
 
@@ -109,10 +107,10 @@ int displayInversionOFF(){
 	return 1; //Successful return
 }
 
-int ClearScreen(uint8_t start_col, uint8_t end_col, uint8_t start_pag, uint8_t end_pag){
+int ClearScreen(uint16_t clr, uint8_t start_col, uint8_t end_col, uint8_t start_pag, uint8_t end_pag){
 	columnAddressSet((uint8_t)0,(uint8_t)320);
 	pageAddressSet(0, 240);
-	writeMemoryContinue(red_color,(uint8_t) 0,(uint8_t) 320,(uint8_t) 0,(uint8_t) 240);
+	writeMemoryContinue(clr,(uint8_t) 0,(uint8_t) 320,(uint8_t) 0,(uint8_t) 240);
 	columnAddressSet(start_col, end_col);
 	pageAddressSet(start_pag, end_pag);
 
